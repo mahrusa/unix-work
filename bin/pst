@@ -1,0 +1,17 @@
+#! /bin/bash
+
+pid=${1:-$$}  # use $1, if it is empty use $$
+
+
+while [ $pid -gt 0 ] 
+do
+	cmd=`ps -fq $pid --no-header | cut -c49-`
+	owner=`ps -fq $pid --no-header | cut -c-8`
+	# echo $owner $pid \($cmd\)
+	printf "%8s %5d (%s)\n" $owner $pid "$cmd"
+	# get parent pid 
+	pid=`ps -fq $pid --no-header | cut -c15-20`
+done
+# veerasam 11528  9448  0 11:50 pts/11   00:00:00 /bin/bash ./pst
+# 123456789012345678901234567890123456789012345678901234567890123456789
+#          1         2         3         4         5         6

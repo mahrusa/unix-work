@@ -1,0 +1,15 @@
+# find deepest files
+# determine max depth
+
+TMPFILE=/tmp/$USER$$
+
+find $* 2>/dev/null | grep / |  >$TMPFILE
+depth=1
+while [ 'cut -f$depth -d/ $TMPFILE | grep -v "^$" | wc -l' -gt 0 ]
+do
+	((depth++))
+done
+((depth--))
+echo $depth
+
+rm -f $TMPFILE
